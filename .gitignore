@@ -1,0 +1,15 @@
+# Nette
+/.env
+/config/local.neon
+/var/log
+/var/tmp
+/var/session
+
+# Composer
+/vendor
+
+# NodeJS
+/node_modules
+
+# Assets
+/www/temp
