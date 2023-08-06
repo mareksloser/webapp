@@ -15,7 +15,6 @@ use Throwable;
 use Tracy\Debugger;
 use Tracy\ILogger;
 
-
 abstract class BaseErrorPresenter extends BasePresenter
 {
 

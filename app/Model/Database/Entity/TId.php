@@ -4,7 +4,6 @@ namespace App\Model\Database\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 trait TId
 {
 

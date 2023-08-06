@@ -12,12 +12,12 @@ use Tracy\Debugger;
 final class Bootstrap
 {
 
-	public static function boot(string $envPath = null): ExtraConfigurator
+	public static function boot(?string $envPath = null): ExtraConfigurator
 	{
 		// ENVIRONMENT settings
 		$_ENV = array_merge(getenv(), $_ENV);
 		$dotenv = new Dotenv();
-		$dotenv->overload($envPath ?: __DIR__ . '/../.env');
+		$dotenv->overload($envPath ?? __DIR__ . '/../.env');
 
 		$configurator = new ExtraConfigurator();
 		$configurator->setTempDirectory(__DIR__ . '/../var/tmp');
@@ -57,23 +57,23 @@ final class Bootstrap
 	public static function runWeb(): void
 	{
 		self::boot()
-		    ->addStaticParameters([
-			    'scope' => 'web',
-		    ])
-		    ->createContainer()
-		    ->getByType(NetteApplication::class)
-		    ->run();
+			->addStaticParameters([
+				'scope' => 'web',
+			])
+			->createContainer()
+			->getByType(NetteApplication::class)
+			->run();
 	}
 
 	public static function runCli(): void
 	{
 		self::boot()
-		    ->addStaticParameters([
-			    'scope' => 'cli',
-		    ])
-		    ->createContainer()
-		    ->getByType(SymfonyApplication::class)
-		    ->run();
+			->addStaticParameters([
+				'scope' => 'cli',
+			])
+			->createContainer()
+			->getByType(SymfonyApplication::class)
+			->run();
 	}
 
 }

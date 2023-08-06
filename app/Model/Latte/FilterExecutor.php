@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Model\Latte;
 
@@ -6,6 +6,7 @@ use Latte\Engine;
 
 final class FilterExecutor
 {
+
 	private Engine $latte;
 
 	public function __construct(Engine $latte)
@@ -25,4 +26,5 @@ final class FilterExecutor
 	{
 		return $this->latte->invokeFilter($name, []);
 	}
+
 }

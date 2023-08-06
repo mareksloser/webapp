@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Domain\Auth\Permission;
 
 use App\Model\Database\EntityManagerDecorator;
 
-
 class CreatePermissionFacade
 {
+
 	private EntityManagerDecorator $em;
 
 	public function __construct(
@@ -16,6 +16,9 @@ class CreatePermissionFacade
 		$this->em = $em;
 	}
 
+	/**
+	 * @param array<string, scalar|null> $data
+	 */
 	public function createPermission(array $data): Permission
 	{
 		$permission = new Permission(
@@ -23,7 +26,7 @@ class CreatePermissionFacade
 			(string) $data['value'],
 			(string) $data['description'],
 			$this->em->getRepository(Permission::class)
-			         ->findOneBy(['value' => (string) $data['parent'], 'parent' => null])
+				->findOneBy(['value' => (string) $data['parent'], 'parent' => null])
 		);
 
 		$this->em->persist($permission);
@@ -31,4 +34,5 @@ class CreatePermissionFacade
 
 		return $permission;
 	}
+
 }

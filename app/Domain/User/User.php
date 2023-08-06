@@ -9,12 +9,11 @@ use App\Model\Database\Entity\TId;
 use App\Model\Database\Entity\TUpdatedAt;
 use App\Model\Exception\Logic\InvalidArgumentException;
 use App\Model\Security\Identity;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: "users")]
+#[ORM\Table(name: 'users')]
 #[ORM\HasLifecycleCallbacks]
 class User extends AbstractEntity
 {
@@ -23,16 +22,14 @@ class User extends AbstractEntity
 	use TCreatedAt;
 	use TUpdatedAt;
 
-	public const
-		StateFresh = 1,
-		StateActivated = 2,
-		StateBlocked = 3,
-		States = [self::StateFresh, self::StateBlocked, self::StateActivated];
+	public const StateFresh = 1;
+	public const StateActivated = 2;
+	public const StateBlocked = 3;
+	public const States = [self::StateFresh, self::StateBlocked, self::StateActivated];
 
-	public const
-		GenderFemale = 0,
-		GenderMale = 1,
-		Genders = [self::GenderFemale, self::GenderMale];
+	public const GenderFemale = 0;
+	public const GenderMale = 1;
+	public const Genders = [self::GenderFemale, self::GenderMale];
 
 	#[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
 	private string $email;
@@ -59,15 +56,15 @@ class User extends AbstractEntity
 	#[ORM\Column(type: 'datetime_immutable', nullable: false)]
 	private ?DateTimeImmutable $lastLoggedAt = null;
 
-	public function __construct(string $firstname, string $lastname, string $email, string $username, string $passwordHash)
+	public function __construct(string $firstname, string $lastname, string $email, string $passwordHash)
 	{
-		$this->firstname    = $firstname;
-		$this->lastname     = $lastname;
-		$this->email        = $email;
-		$this->password     = $passwordHash;
+		$this->firstname = $firstname;
+		$this->lastname = $lastname;
+		$this->email = $email;
+		$this->password = $passwordHash;
 
-		$this->role         = Role::RoleAuthenticated;
-		$this->state        = self::StateFresh;
+		$this->role = Role::RoleAuthenticated;
+		$this->state = self::StateFresh;
 	}
 
 	public function changeLoggedAt(): void

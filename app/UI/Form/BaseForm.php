@@ -1,19 +1,19 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\UI\Form;
 
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\TextInput;
 
-
 class BaseForm extends Form
 {
+
 	public function addFloat(string $name, ?string $label = null): TextInput
 	{
 		$input = $this->addText($name, $label);
 		$input->addCondition(self::FILLED)
-		      ->addRule(self::MAX_LENGTH, null, 255)
-		      ->addRule(self::FLOAT);
+			->addRule(self::MAX_LENGTH, null, 255)
+			->addRule(self::FLOAT);
 
 		return $input;
 	}
@@ -22,9 +22,10 @@ class BaseForm extends Form
 	{
 		$input = $this->addText($name, $label);
 		$input->addCondition(self::FILLED)
-		      ->addRule(self::MAX_LENGTH, null, 255)
-		      ->addRule(self::NUMERIC);
+			->addRule(self::MAX_LENGTH, null, 255)
+			->addRule(self::NUMERIC);
 
 		return $input;
 	}
+
 }

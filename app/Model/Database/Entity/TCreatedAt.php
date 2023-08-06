@@ -18,6 +18,7 @@ trait TCreatedAt
 
 	/**
 	 * Doctrine annotation
+	 *
 	 * @internal
 	 */
 	#[ORM\PrePersist]

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Model\Security\Authorizator;
 
@@ -8,9 +8,9 @@ use App\Model\Database\EntityManagerDecorator;
 use Nette\Security\Authorizator;
 use Nette\Security\Permission as NettePermission;
 
-
 class DatabaseAuthorizator extends NettePermission
 {
+
 	private EntityManagerDecorator $em;
 
 	/**
@@ -21,7 +21,6 @@ class DatabaseAuthorizator extends NettePermission
 		$this->em = $em;
 
 		$this->create();
-
 	}
 
 	protected function create(): void
@@ -36,8 +35,7 @@ class DatabaseAuthorizator extends NettePermission
 		 * Setup roles
 		 * @var Role $role
 		 */
-		foreach($roles as $role)
-		{
+		foreach ($roles as $role) {
 			$this->addRole(
 				$role->getKey(),
 				$role->getParentKey() !== $role->getKey() ? $role->getParentKey() : null
@@ -48,8 +46,7 @@ class DatabaseAuthorizator extends NettePermission
 		 * Define resources
 		 * @var Permission $permission
 		 */
-		foreach($permissions as $permission)
-		{
+		foreach ($permissions as $permission) {
 			$this->addResource(
 				$permission->getValue(),
 				$permission->getParentValue() !== $permission->getValue() ? $permission->getParentValue() : null
@@ -60,20 +57,20 @@ class DatabaseAuthorizator extends NettePermission
 		 * Allow resources to role
 		 * @var Role $role
 		 */
-		foreach($roles as $role)
-		{
-			if($role->isSuperRole()) {
+		foreach ($roles as $role) {
+			if ($role->isSuperRole()) {
 				$this->allow($role->getKey(), Authorizator::ALL, Authorizator::ALL);
+
 				continue;
 			}
 
 			/**
 			 * @var Permission $permission
 			 */
-			foreach ($role->getPermissions() as $permission)
-			{
+			foreach ($role->getPermissions() as $permission) {
 				$this->allow($role->getKey(), $permission->getValue());
 			}
 		}
 	}
+
 }

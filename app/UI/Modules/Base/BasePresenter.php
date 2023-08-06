@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\UI\Modules\Base;
 
@@ -11,13 +11,13 @@ use Contributte\Application\UI\Presenter\StructuredTemplates;
 use Nette\Application\UI\Presenter;
 use Nette\DI\Attributes\Inject;
 
-
 /**
  * @property-read TemplateProperty $template
  * @property-read SecurityUser $user
  */
 abstract class BasePresenter extends Presenter
 {
+
 	use StructuredTemplates;
 	use TCheckRequirements;
 	//use TFlashMessage;
@@ -25,4 +25,5 @@ abstract class BasePresenter extends Presenter
 
 	#[Inject]
 	public CreatePermissionFacade $permissionFacade;
+
 }

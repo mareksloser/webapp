@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Model\Security\Authenticator;
 
@@ -11,9 +11,9 @@ use App\Model\Security\Passwords;
 use Nette\Security\Authenticator;
 use Nette\Security\IIdentity;
 
-
 final class UserAuthenticator implements Authenticator
 {
+
 	public function __construct(
 		private QueryManager $qm,
 		private EntityManagerDecorator $em,
@@ -48,4 +48,5 @@ final class UserAuthenticator implements Authenticator
 	{
 		return $user->toIdentity();
 	}
+
 }

@@ -1,16 +1,16 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\UI\Control;
 
 use App\Model\Exception\Runtime\InvalidStateException;
 use App\UI\Modules\Base\BasePresenter;
 
-
 /**
  * @mixin BasePresenter
  */
 trait TModuleUtils
 {
+
 	/**
 	 * Gets module name
 	 */
@@ -59,4 +59,5 @@ trait TModuleUtils
 
 		return $realpath;
 	}
+
 }

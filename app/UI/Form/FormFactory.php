@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\UI\Form;
 
 final class FormFactory
 {
+
 	public function forFrontend(): BaseForm
 	{
 		return $this->create();
@@ -18,4 +19,5 @@ final class FormFactory
 	{
 		return new BaseForm();
 	}
+
 }

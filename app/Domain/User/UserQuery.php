@@ -13,7 +13,7 @@ class UserQuery extends AbstractQuery
 		$self = new self();
 		$self->ons[] = function (QueryBuilder $qb) use ($email): QueryBuilder {
 			$qb->andWhere('u.email = :email')
-			   ->setParameter('email', $email);
+				->setParameter('email', $email);
 
 			return $qb;
 		};
@@ -25,7 +25,7 @@ class UserQuery extends AbstractQuery
 	{
 		$this->ons[] = function (QueryBuilder $qb): QueryBuilder {
 			$qb->select('u')
-			   ->from(User::class, 'u');
+				->from(User::class, 'u');
 
 			return $qb;
 		};

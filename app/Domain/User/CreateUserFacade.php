@@ -27,7 +27,6 @@ class CreateUserFacade
 			(string) $data['firstname'],
 			(string) $data['surname'],
 			(string) $data['email'],
-			(string) $data['username'],
 			Passwords::create()->hash((string) ($data['password'] ?? md5(microtime())))
 		);
 

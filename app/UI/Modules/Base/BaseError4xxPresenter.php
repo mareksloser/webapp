@@ -7,7 +7,6 @@ use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\UI\ComponentReflection;
 
-
 abstract class BaseError4xxPresenter extends BasePresenter
 {
 

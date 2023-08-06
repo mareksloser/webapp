@@ -1,26 +1,30 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\UI\Control;
 
-use App\Domain\Auth\Permission\Permission;
 use App\Model\Attributes\Resource;
 use App\Model\Exception\Runtime\PermissionException;
 use App\Model\Helper\ClassParser;
 use App\UI\Modules\Base\BasePresenter;
-use Nette;
-use Nette\Application\UI\ComponentReflection;
-use Nette\Application\UI\MethodReflection;
-
+use Nette\Application\AbortException;
+use Nette\Application\ForbiddenRequestException;
+use Nette\Application\UI\InvalidLinkException;
+use Nette\InvalidStateException;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 
 /**
  * @mixin BasePresenter
  */
 trait TCheckRequirements
 {
+
 	/**
-	 * @throws Nette\Application\ForbiddenRequestException
-	 * @throws Nette\Application\UI\InvalidLinkException
-	 * @throws Nette\Application\AbortException
+	 * @throws ForbiddenRequestException
+	 * @throws InvalidLinkException
+	 * @throws AbortException
+	 * @throws \ReflectionException
 	 */
 	public function checkRequirements(mixed $element): void
 	{
@@ -36,60 +40,72 @@ trait TCheckRequirements
 		//	$this->redirect(Dest::AdminLogin);
 		//}
 
-		throw new Nette\Application\ForbiddenRequestException('You have no permission. Is required: ' . $resource);
+		throw new ForbiddenRequestException('You have no permission. Is required: ' . $resource);
 	}
 
-	public function findResource(mixed $element): ?string
+	/**
+	 * @template T of mixed
+	 * @param T $element
+	 * @throws ReflectionException
+	 */
+	public function findResource(mixed $element): string
 	{
 		$resource = null;
 
-		if ($element instanceof ComponentReflection) {
-			$reflection = new \ReflectionClass($element->name);
+		if ($element instanceof ReflectionClass) {
+			// Component signal
+			if ($this->presenter->getSignal() !== null) {
+				bdump([$this->presenter->getSignal(), 'Component signal']);
 
+			// Presenter
+			} else {
+				if (class_exists($element->name)) {
+					$reflection = new ReflectionClass($element->name);
+
+					$resource = ClassParser::getArgument($reflection, Resource::class);
+				}
+			}
+		} elseif ($element instanceof ReflectionMethod) {
+
+			$reflection = new ReflectionMethod($element->class, $element->name);
 			$resource = ClassParser::getArgument($reflection, Resource::class);
 
-		} elseif($element instanceof MethodReflection) {
-			$reflection = new \ReflectionMethod($element->class, $element->name);
-
-			$resource = ClassParser::getArgument($reflection, Resource::class);
-
-			// if child has no resource, use parent resource
-			if($resource === null) {
-				$refParent = new \ReflectionClass($element->class);
-
+			// If Presenter signal or action argument isn't found - try to found presenter argument
+			if ($resource === null) {
+				$refParent = new ReflectionClass($element->class);
 				$resource = ClassParser::getArgument($refParent, Resource::class);
 			}
 		}
 
-		if($resource === null) {
-			throw new PermissionException('No permission found in file: ' . $reflection->getName());
+		if ($resource === null) {
+			throw new PermissionException('No permission found in file: ' . $element->name);
 		}
 
 		return $resource;
 	}
 
-	protected function isAllowed(?string $resource): bool
+	protected function isAllowed(string $resource): bool
 	{
 		$isAllowed = false;
 
 		try {
 			$isAllowed = $this->user->isAllowed($resource);
 
-		} catch (Nette\InvalidStateException $e) {
+		} catch (InvalidStateException $e) {
 			$parentParse = explode(':', $resource);
-			$parentName = $parentParse[0] ?? NULL;
+			$parentName = $parentParse[0] ?? null;
 
 			$this->permissionFacade->createPermission([
 				'name' => $resource,
 				'value' => $resource,
 				'description' => null,
-				'parent' => $parentName
+				'parent' => $parentName,
 			]);
 
 			$this->redirect('this');
 		}
 
-
 		return $isAllowed;
 	}
+
 }

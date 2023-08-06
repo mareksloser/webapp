@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Model\Router;
 
 use Nette\Application\Routers\RouteList;
 
-
 final class RouterFactory
 {
+
 	private RouteList $router;
 
 	public function __construct()
@@ -16,7 +16,7 @@ final class RouterFactory
 
 	public function create(): RouteList
 	{
-		$appURL = $_ENV['APP_URL'];
+		$appURL = getenv('APP_URL');
 
 		$this->buildAdmin($appURL);
 		$this->buildTool($appURL);
@@ -42,4 +42,5 @@ final class RouterFactory
 		$this->router[] = $list = new RouteList('Web');
 		$list->addRoute($appURL . '/<presenter>/<action>[/<id \d+>]', 'Home:default');
 	}
+
 }

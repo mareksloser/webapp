@@ -17,5 +17,5 @@ parameters:
 		- bin
 
 	doctrine:
-		objectManagerLoader: .build/phpstan-doctrine.php
+		objectManagerLoader: db/phpstan-doctrine.php
 		ormRepositoryClass: App\Model\Database\Repository\AbstractRepository
