@@ -23,6 +23,7 @@ final class Version20230805122509 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE permissions_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE roles_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE users_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+	    $this->addSql('CREATE SEQUENCE config_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE permissions (id INT NOT NULL, parent_id INT DEFAULT NULL, name VARCHAR(32) NOT NULL, value VARCHAR(32) NOT NULL, description VARCHAR(32) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2DEDCC6F5E237E06 ON permissions (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2DEDCC6F1D775834 ON permissions (value)');
@@ -37,6 +38,8 @@ final class Version20230805122509 extends AbstractMigration
         $this->addSql('CREATE TABLE users (id INT NOT NULL, role_id INT DEFAULT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, gender INT NOT NULL, state INT NOT NULL, last_logged_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON users (email)');
         $this->addSql('CREATE INDEX IDX_1483A5E9D60322AC ON users (role_id)');
+	    $this->addSql('CREATE TABLE config (id INT NOT NULL, key VARCHAR(32) NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY(id))');
+	    $this->addSql('CREATE UNIQUE INDEX UNIQ_D48A2F7C8A90ABA9 ON config (key)');
         $this->addSql('COMMENT ON COLUMN users.last_logged_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN users.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN users.updated_at IS \'(DC2Type:datetime_immutable)\'');
@@ -54,6 +57,7 @@ final class Version20230805122509 extends AbstractMigration
         $this->addSql('DROP SEQUENCE permissions_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE roles_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE users_id_seq CASCADE');
+	    $this->addSql('DROP SEQUENCE config_id_seq CASCADE');
         $this->addSql('ALTER TABLE permissions DROP CONSTRAINT FK_2DEDCC6F727ACA70');
         $this->addSql('ALTER TABLE roles DROP CONSTRAINT FK_B63E2EC7727ACA70');
         $this->addSql('ALTER TABLE roles_permissions DROP CONSTRAINT FK_CEC2E043D60322AC');
@@ -63,5 +67,6 @@ final class Version20230805122509 extends AbstractMigration
         $this->addSql('DROP TABLE roles');
         $this->addSql('DROP TABLE roles_permissions');
         $this->addSql('DROP TABLE users');
+	    $this->addSql('DROP TABLE config');
     }
 }

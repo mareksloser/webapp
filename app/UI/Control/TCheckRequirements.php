@@ -2,6 +2,7 @@
 
 namespace App\UI\Control;
 
+use App\Model\App;
 use App\Model\Attributes\Resource;
 use App\Model\Exception\Runtime\PermissionException;
 use App\Model\Helper\ClassParser;
@@ -36,9 +37,9 @@ trait TCheckRequirements
 			return;
 		}
 
-		//if (! $this->user->isLoggedIn() && ! $this->isLinkCurrent(Dest::AdminLogin)) {
-		//	$this->redirect(Dest::AdminLogin);
-		//}
+		if (! $this->user->isLoggedIn() && ! $this->isLinkCurrent(App::DESTINATION_SIGN_IN)) {
+			$this->redirect(App::DESTINATION_SIGN_IN);
+		}
 
 		throw new ForbiddenRequestException('You have no permission. Is required: ' . $resource);
 	}
@@ -78,7 +79,7 @@ trait TCheckRequirements
 		}
 
 		if ($resource === null) {
-			throw new PermissionException('No permission found in file: ' . $element->name);
+			throw new PermissionException('No permission found in file: ' . $element->getFileName());
 		}
 
 		return $resource;
