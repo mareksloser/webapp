@@ -16,31 +16,29 @@ final class RouterFactory
 
 	public function create(): RouteList
 	{
-		$appURL = getenv('APP_URL');
-
-		$this->buildAdmin($appURL);
-		$this->buildTool($appURL);
-		$this->buildWeb($appURL);
+		$this->buildAdmin();
+		$this->buildTool();
+		$this->buildWeb();
 
 		return $this->router;
 	}
 
-	private function buildAdmin(string $appURL): void
+	private function buildAdmin(): void
 	{
 		$this->router[] = $list = new RouteList('Admin');
-		$list->addRoute($appURL . '/admin/<presenter>/<action>[/<id \d+>]', 'Home:default');
+		$list->addRoute('/admin/<presenter>/<action>[/<id \d+>]', 'Home:default');
 	}
 
-	private function buildTool(string $appURL): void
+	private function buildTool(): void
 	{
 		$this->router[] = $list = new RouteList('Tool');
-		$list->addRoute($appURL . '/tool/<presenter>/<action>[/<id \d+>]');
+		$list->addRoute('/tool/<presenter>/<action>[/<id \d+>]');
 	}
 
-	private function buildWeb(string $appURL): void
+	private function buildWeb(): void
 	{
 		$this->router[] = $list = new RouteList('Web');
-		$list->addRoute($appURL . '/<presenter>/<action>[/<id \d+>]', 'Home:default');
+		$list->addRoute('<presenter>/<action>[/<id \d+>]', 'Home:default');
 	}
 
 }
