@@ -2,11 +2,13 @@
 
 namespace App\UI\Modules\Base;
 
+use App\Model\Attributes\Resource;
 use App\Model\Exception\Runtime\InvalidStateException;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Application\UI\ComponentReflection;
 
+#[Resource('Web')]
 abstract class BaseError4xxPresenter extends BasePresenter
 {
 

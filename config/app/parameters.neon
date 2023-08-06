@@ -5,7 +5,7 @@ parameters:
 	system:
 		error:
 			email: webapp@mareksloser.cz
-			presenter: Front:Error
+			presenter: Web:Error
 
 	# Database
 	database:

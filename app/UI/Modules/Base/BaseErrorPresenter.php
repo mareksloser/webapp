@@ -2,6 +2,7 @@
 
 namespace App\UI\Modules\Base;
 
+use App\Model\Attributes\Resource;
 use Nette\Application\BadRequestException;
 use Nette\Application\Helpers;
 use Nette\Application\Request;
@@ -15,6 +16,7 @@ use Throwable;
 use Tracy\Debugger;
 use Tracy\ILogger;
 
+#[Resource('Web')]
 abstract class BaseErrorPresenter extends BasePresenter
 {
 
